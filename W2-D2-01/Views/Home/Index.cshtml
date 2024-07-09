@@ -1,0 +1,29 @@
+﻿@model W2_D2_01.Models.Pizza
+
+<h1>Order Pizza</h1>
+
+<form asp-action="Index" method="post">
+    <div>
+        <label>Select Size</label>
+        <select asp-for="Size" asp-items="Html.GetEnumSelectList<SizeEnum>()"></select>
+    </div>
+
+    <div>
+        <label>Select Base</label>
+        <select asp-for="Base" asp-items="Html.GetEnumSelectList<BaseEnum>()"></select>
+    </div>
+
+    <div>
+        <label>Select Toppings</label>
+        @foreach (var topping in Enum.GetValues(typeof(ToppingEnum)).Cast<ToppingEnum>())
+        {
+            <div>
+                <input type="checkbox" name="Toppings" value="@topping" checked="@(Model.Toppings != null && Model.Toppings.Contains(topping))" />
+                <label>@topping</label>
+            </div>
+        }
+    </div>
+
+    <button type="submit">Submit</button>
+
+</form>
