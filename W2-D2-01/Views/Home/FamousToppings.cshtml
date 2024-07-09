@@ -1,0 +1,45 @@
+﻿@model List<W2_D2_01.Models.Customer>
+
+@{
+    Dictionary<string, int> toppingCounts = new Dictionary<string, int>();
+    Dictionary<string, double> toppingPercentage = new Dictionary<string, double>();
+    int totalOrders = Model.Count;
+
+    foreach (var customer in Model)
+    {
+        foreach (var topping in customer.Order.Toppings)
+        {
+            if (toppingCounts.ContainsKey(topping.ToString()))
+            {
+                toppingCounts[topping.ToString()]++;
+            }
+            else
+            {
+                toppingCounts[topping.ToString()] = 1;
+            }
+        }
+    }
+    foreach (var topping in toppingCounts){
+        toppingPercentage[topping.Key] = (double)topping.Value / totalOrders * 100;
+    }
+}
+
+<h2>Pizza Order Counts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Toppings</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topping in toppingPercentage.OrderByDescending(t => t.Value))
+        {
+            <tr>
+                <td>@topping.Key</td>
+                <td>@topping.Value.ToString("F2")%</td>
+            </tr>
+        }
+    </tbody>
+</table>

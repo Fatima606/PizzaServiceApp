@@ -1,0 +1,52 @@
+﻿@model List<W2_D2_01.Models.Customer>
+
+<p>TOTAL PIZZAS ORDERED : @ViewBag.TotalPizzasOrdered</p>
+@{
+    Dictionary<string, int> pizzaCounts = new Dictionary<string, int>();
+
+
+    foreach (var customer in Model)
+    {
+        var pizzaKey = $"{customer.Order.Size}-{customer.Order.Base}-[{string.Join(",", customer.Order.Toppings)}]";
+        if (pizzaCounts.ContainsKey(pizzaKey))
+        {
+            pizzaCounts[pizzaKey]++;
+        }
+        else
+        {
+            pizzaCounts[pizzaKey] = 1;
+        }
+    }
+}
+
+<h2>Pizza Order Counts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Size</th>
+            <th>Base</th>
+            <th>Toppings</th>
+            <th>Times Ordered</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pizza in pizzaCounts)
+        {
+            var pizzaDetails = pizza.Key.Split('-');
+            <tr>
+                <td>@pizzaDetails[0]</td>
+                <td>@pizzaDetails[1]</td>
+                <td>
+                    <ul>
+                        @foreach (var topping in pizzaDetails[2].Trim('[', ']').Split(","))
+                        {
+                            <li>@topping</li>
+                        }
+                    </ul>
+                </td>
+                <td>@pizza.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -2,28 +2,41 @@
 
 <h1>Order Pizza</h1>
 
-<form asp-action="Index" method="post">
+<form asp-action="Index" method="post" onsubmit="return validateForm()">
     <div>
         <label>Select Size</label>
         <select asp-for="Size" asp-items="Html.GetEnumSelectList<SizeEnum>()"></select>
     </div>
-
+    <br/>
     <div>
         <label>Select Base</label>
         <select asp-for="Base" asp-items="Html.GetEnumSelectList<BaseEnum>()"></select>
     </div>
-
+    <br/>
     <div>
-        <label>Select Toppings</label>
+        <label>Select Toppings (Select up to 3)</label>
         @foreach (var topping in Enum.GetValues(typeof(ToppingEnum)).Cast<ToppingEnum>())
         {
             <div>
-                <input type="checkbox" name="Toppings" value="@topping" checked="@(Model.Toppings != null && Model.Toppings.Contains(topping))" />
+                <input type="checkbox" name="Toppings" value="@topping"
+                   class="topping-checkbox"
+                   @(Model.Toppings != null && Model.Toppings.Contains(topping) ? "checked" : "") />
                 <label>@topping</label>
             </div>
         }
     </div>
-
+    <br/>
     <button type="submit">Submit</button>
 
 </form>
+
+<script>
+    function validateForm() {
+        const checkboxes = document.querySelectorAll('.topping-checkbox:checked');
+        if (checkboxes.length > 3) {
+            alert('You can select up to 3 toppings only.');
+            return false; 
+        }
+        return true; 
+    }
+</script>

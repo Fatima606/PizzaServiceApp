@@ -33,5 +33,6 @@ namespace W2_D2_01.Models
         public BaseEnum Base { get; set; }
         [Required]
         public List<ToppingEnum> Toppings { get; set; }
-    } 
+    }
+
 }
