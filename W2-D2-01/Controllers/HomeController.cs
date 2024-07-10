@@ -1,7 +1,6 @@
-﻿ using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using W2_D2_01.Models;
-using static W2_D2_01.Models.Pizza;
 
 namespace W2_D2_01.Controllers
 {
@@ -40,6 +39,7 @@ namespace W2_D2_01.Controllers
 
             return View(model);
         }
+        
         public IActionResult OrderSummary()
         {
             @ViewBag.TotalPizzasOrdered = _totalPizzasOrdered;
